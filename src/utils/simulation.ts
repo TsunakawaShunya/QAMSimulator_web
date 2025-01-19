@@ -56,7 +56,7 @@ const addNoise = (symbols: [number, number][], EbN0dB: number): [number, number]
     // シンボルの平均電力を計算
     const P_avg = symbols.reduce((sum, [x, y]) => sum + x ** 2 + y ** 2, 0) / symbols.length;
     // noiseSDを計算 (平均電力とEb/N0を基に)
-    const noiseSD = Math.sqrt(P_avg * 0.5 * Math.pow(10.0, -0.1 * EbN0dB));
+    const noiseSD = Math.sqrt(P_avg * Math.pow(10.0, -0.1 * EbN0dB));    
     
     return symbols.map(([x, y]) => [
         x + noiseSD * (Math.random() - 0.5),
@@ -73,7 +73,6 @@ const addNoise = (symbols: [number, number][], EbN0dB: number): [number, number]
 export const runSimulation = (modulationOrder: number, ebN0: number): SimulationResult => {
     const N_Tri = 10; // 試行回数
     const transmitSymbols = generateSymbols(modulationOrder);
-    // console.log(transmitSymbols);
     let receivedSymbols: [number, number][] = [];
     for(let i = 0; i < N_Tri; i++) {
         receivedSymbols = receivedSymbols.concat(addNoise(transmitSymbols, ebN0));
