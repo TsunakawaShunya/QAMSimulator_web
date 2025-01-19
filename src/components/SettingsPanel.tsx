@@ -58,6 +58,17 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ onSettingsChange }) => {
     <div className="p-6 bg-white rounded-lg shadow-md w-full max-w-md">
       <ModulationOrderSelector value={modulationOrder} onChange={setModulationOrder} />
       <EbN0Slider value={ebN0} onChange={setEbN0} />
+      {/* 説明文を追加 */}
+      <div className="mt-6">
+        <p className="mt-2 text-sm text-gray-700">
+          <span className="mr-4">
+            <span className="inline-block w-4 h-4 rounded-full bg-blue-500" /> 送信シンボル
+          </span>
+          <span>
+            <span className="inline-block w-4 h-4 rounded-full bg-red-500" /> 受信シンボル
+          </span>
+        </p>
+      </div>
     </div>
   );
 };
