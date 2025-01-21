@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Introduce from "./pages/introduce";
+import Introduce from "./pages/Introduce";
 import QAMSimulator from "./pages/QAMSimulator";
 
 const App: React.FC = () => {
