@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 // IQ平面コンポーネント
 interface IQPlaneProps {
@@ -8,6 +8,25 @@ interface IQPlaneProps {
 
 const IQPlane: React.FC<IQPlaneProps> = ({ transmitSymbols, receivedSymbols }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [canvasSize, setCanvasSize] = useState({ width: 400, height: 400 });
+
+  // 親要素のサイズに合わせてキャンバスサイズを更新
+  useEffect(() => {
+    const handleResize = () => {
+      if (canvasRef.current) {
+        setCanvasSize({
+          width: canvasRef.current.parentElement?.offsetWidth || 400,
+          height: canvasRef.current.parentElement?.offsetHeight || 400,
+        });
+      }
+    };
+
+    // 初回ロードとリサイズイベントに対応
+    window.addEventListener("resize", handleResize);
+    handleResize(); // 初期サイズ設定
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -54,9 +73,17 @@ const IQPlane: React.FC<IQPlaneProps> = ({ transmitSymbols, receivedSymbols }) =
         });
       }
     }
-  }, [transmitSymbols, receivedSymbols]);
+  }, [transmitSymbols, receivedSymbols, canvasSize]);
 
-  return <canvas ref={canvasRef} width={400} height={400} style={{ border: "1px solid black" }} />;
+  return (
+    <canvas
+      className="mx-auto border rounded-lg shadow-lg bg-white"
+      ref={canvasRef}
+      width={canvasSize.width}
+      height={canvasSize.height}
+      style={{ border: "1px solid black", width: "100%", height: "100%" }}
+    />
+  );
 };
 
 export default IQPlane;
